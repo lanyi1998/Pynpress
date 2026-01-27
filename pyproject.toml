@@ -1,0 +1,17 @@
+[project]
+name = "pynpress"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "lanyi", email = "31091395+lanyi1998@users.noreply.github.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "playwright>=1.57.0",
+    "pytest-playwright>=0.7.2",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.17,<0.10.0"]
+build-backend = "uv_build"
