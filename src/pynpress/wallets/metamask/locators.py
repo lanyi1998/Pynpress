@@ -37,5 +37,6 @@ class MetaMaskLocators:
     SIGN_SCROLL_DOWN = "data-testid=signature-request-scroll-button" 
     
     # Transaction
-    CONFIRM_FOOTER_NEXT = "data-testid=page-container-footer-next"
+    CONFIRM_FOOTER_NEXT = "data-testid=confirm-footer-button"
+    CONFIRM_FOOTER_CANCEL_NEXT = "data-testid=confirm-footer-cancel-button"
     GAS_EDIT_BUTTON = "data-testid=edit-gas-fee-button"

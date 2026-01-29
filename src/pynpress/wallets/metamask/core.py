@@ -13,19 +13,6 @@ class MetaMask(BaseWallet):
         # If extension_id is not provided, we might need a way to find it or default it
         # But usually it's passed from the launcher.
 
-    def _get_page(self) -> Page:
-        # TODO: handle logic to switch to existing metamask tab or open new one
-        if not self.page or self.page.is_closed():
-            # This is a naive implementation; in reality we iterate over context.pages
-            for page in self.context.pages:
-                if "extension://" in page.url and self.extension_id in page.url:
-                    self.page = page
-                    return page
-            # If not found, open home
-            # self.page = self.context.new_page() 
-            # self.page.goto(f"chrome-extension://{self.extension_id}/home.html")
-        return self.page
-
     def setup(self, seed_phrase: str, password: str) -> None:
         """
         Automates the MetaMask onboarding flow.
@@ -88,7 +75,6 @@ class MetaMask(BaseWallet):
         page.click(MetaMaskLocators.ONBOARDING_COMPLETE_DONE)
         # page.click(MetaMaskLocators.ONBOARDING_NEXT)
         # page.click(MetaMaskLocators.ONBOARDING_PIN_EXTENSION_DONE)
-        # todo
         page.goto(f'chrome-extension://{self.extension_id}/sidepanel.html#/')
 
     def approve_connect(self) -> None:
@@ -102,21 +88,8 @@ class MetaMask(BaseWallet):
     def cancel_connect(self) -> None:
         self.page.click(MetaMaskLocators.CONNECT_CANCEL_BUTTON)
 
-    def sign(self) -> None:
-        popup = self.context.wait_for_event("page")
-        # Scroll down if needed
-        if popup.is_visible(MetaMaskLocators.SIGN_SCROLL_DOWN):
-            popup.click(MetaMaskLocators.SIGN_SCROLL_DOWN)
+    def confirm_transaction(self):
+        self.page.click(MetaMaskLocators.CONFIRM_FOOTER_NEXT)
 
-        popup.click(MetaMaskLocators.SIGN_CONFIRM_BUTTON)
-
-    def confirm_transaction(self, gas_settings: Optional[dict[str, Any]] = None) -> None:
-        popup = self.context.wait_for_event("page")
-        # Handle gas settings if provided (omitted for brevity)
-        popup.click(MetaMaskLocators.CONFIRM_FOOTER_NEXT)
-
-    def add_network(self, network_details: dict[str, Any]) -> None:
-        pass
-
-    def switch_network(self, network_name: str) -> None:
-        pass
+    def cancel_transaction(self):
+        self.page.click(MetaMaskLocators.CONFIRM_FOOTER_CANCEL_NEXT)

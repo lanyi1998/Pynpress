@@ -43,7 +43,7 @@ class BaseWallet(ABC):
         pass
 
     @abstractmethod
-    def confirm_transaction(self, gas_settings: Optional[dict[str, Any]] = None) -> None:
+    def confirm_transaction(self) -> None:
         """
         Confirm a pending transaction.
         """
