@@ -22,12 +22,8 @@ Built on top of [Playwright for Python](https://playwright.dev/python/), Pynpres
 Requires **Python 3.10+**.
 
 ```bash
-# Clone the repository
-git clone https://github.com/lanyi1998/Pynpress.git
-cd Pynpress
-
-# Install dependencies (using uv or pip)
-pip install .
+# Install pynpress
+pip install pynpress
 
 # Install Playwright browsers
 playwright install
