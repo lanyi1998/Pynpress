@@ -1,6 +1,6 @@
 # Pynpress 🐍
 
-**Pynpress** is a Python-based E2E (End-to-End) testing library for Web3 dApps, heavily inspired by the renowned [Synpress](https://github.com/Synpress/Synpress).
+**Pynpress** is a Python-based E2E (End-to-End) testing library for Web3 dApps, heavily inspired by the renowned [Synpress](https://github.com/synpress-io/synpress).
 
 Built on top of [Playwright for Python](https://playwright.dev/python/), Pynpress allows you to automate interactions with cryptocurrency wallets (like **MetaMask**) and dApps directly from your Python test suites.
 
