@@ -22,6 +22,7 @@ class Launcher:
         self.playwright = None
         self.context = None
         self.wallet = None
+        self.user_data_dir  = os.path.join(os.getcwd(), f".pynpress_user_data_{int(time.time())}")
 
     def launch(
         self,
@@ -71,10 +72,9 @@ class Launcher:
         self.playwright = sync_playwright().start()
         
         # We use launch_persistent_context to keep the profile
-        user_data_dir = os.path.join(os.getcwd(), f".pynpress_user_data_{int(time.time())}")
         
         self.context = self.playwright.chromium.launch_persistent_context(
-            user_data_dir,
+            self.user_data_dir,
             headless=headless,
             args=launch_args,
             slow_mo=100 if not headless else 0,
