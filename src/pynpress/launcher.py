@@ -8,13 +8,16 @@ from urllib.parse import urlparse
 from .wallets.base import BaseWallet
 from .wallets.metamask.core import MetaMask
 
+
 class WalletType(Enum):
     METAMASK = "metamask"
+
 
 def get_wallet_class(wallet_type: WalletType) -> Type[BaseWallet]:
     if wallet_type == WalletType.METAMASK:
         return MetaMask
     raise ValueError(f"Unsupported wallet type: {wallet_type}")
+
 
 class Launcher:
     def __init__(self, wallet_type: WalletType = WalletType.METAMASK):
@@ -22,16 +25,17 @@ class Launcher:
         self.playwright = None
         self.context = None
         self.wallet = None
-        self.user_data_dir  = os.path.join(os.getcwd(), f".pynpress_user_data_{int(time.time())}")
+        self.user_data_dir = None
 
     def launch(
-        self,
-        seed_phrase: str = "",
-        password: str = "",
-        headless: bool = False,
-        extension_path: Optional[str] = None,
-        args: List[str] = None,
-        **kwargs
+            self,
+            seed_phrase: str = "",
+            password: str = "",
+            user_data_dir=None,
+            headless: bool = False,
+            extension_path: Optional[str] = None,
+            args: List[str] = None,
+            **kwargs
     ) -> Tuple[BrowserContext, BaseWallet]:
         """
         Launches a browser context with the specified wallet extension and performs setup.
@@ -39,6 +43,7 @@ class Launcher:
         Args:
             seed_phrase: Seed phrase to import (optional).
             password: Password to use/create (optional).
+            user_data_dir: user data dir
             headless: Whether to run in headless mode.
             extension_path: Path to the unpacked extension.
             args: Additional arguments for the browser (Chrome CLI args).
@@ -66,13 +71,17 @@ class Launcher:
             "--disable-gpu",
             "--disable-blink-features=AutomationControlled"
         ]
-        
+
         launch_args = args + extension_args
 
         self.playwright = sync_playwright().start()
-        
+
         # We use launch_persistent_context to keep the profile
-        
+        if user_data_dir is None:
+            self.user_data_dir = os.path.join(os.getcwd(), f".pynpress_user_data_{int(time.time())}")
+        else:
+            self.user_data_dir = user_data_dir
+
         self.context = self.playwright.chromium.launch_persistent_context(
             self.user_data_dir,
             headless=headless,
@@ -90,7 +99,7 @@ class Launcher:
         extension_id = parsed_url.netloc
 
         self.wallet = wallet_cls(self.context, extension_id)
-        
+
         if seed_phrase and password:
             self.wallet.setup(seed_phrase, password)
 
