@@ -35,12 +35,12 @@ class BaseWallet(ABC):
         """
         pass
 
-    @abstractmethod
-    def sign(self) -> None:
-        """
-        Sign a message or transaction.
-        """
-        pass
+    # @abstractmethod
+    # def sign(self) -> None:
+    #     """
+    #     Sign a message or transaction.
+    #     """
+    #     pass
 
     @abstractmethod
     def confirm_transaction(self) -> None:
@@ -48,17 +48,20 @@ class BaseWallet(ABC):
         Confirm a pending transaction.
         """
         pass
-
     @abstractmethod
-    def add_network(self, network_details: dict[str, Any]) -> None:
-        """
-        Add a new network to the wallet.
-        """
+    def cancel_transaction(self)->None:
         pass
 
-    @abstractmethod
-    def switch_network(self, network_name: str) -> None:
-        """
-        Switch to a different network.
-        """
-        pass
+    # @abstractmethod
+    # def add_network(self, network_details: dict[str, Any]) -> None:
+    #     """
+    #     Add a new network to the wallet.
+    #     """
+    #     pass
+    #
+    # @abstractmethod
+    # def switch_network(self, network_name: str) -> None:
+    #     """
+    #     Switch to a different network.
+    #     """
+    #     pass
